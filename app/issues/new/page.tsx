@@ -12,10 +12,11 @@ import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
+import delay from "delay";
 
 type IssueForm = z.infer<typeof createIssueSchema>; // infer the types based on the schema
 
-const NewIssuePage = () => {
+const NewIssuePage = async () => {
   const router = useRouter();
   const {
     register,
@@ -41,6 +42,8 @@ const NewIssuePage = () => {
       setIsLoading(false);
     }
   };
+
+  await delay(2000);
 
   return (
     <div className="max-w-xl">
