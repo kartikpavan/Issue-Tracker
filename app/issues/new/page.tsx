@@ -10,6 +10,8 @@ import { AiOutlineWarning } from "react-icons/ai";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>; // infer the types based on the schema
 
@@ -20,19 +22,23 @@ const NewIssuePage = () => {
     handleSubmit,
     reset,
     control,
-    formState: { errors, isLoading, isSubmitted },
+    formState: { errors },
   } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<IssueForm> = async (data) => {
     try {
+      setIsLoading(true);
       await axios.post("/api/issues", data);
       router.push("/issues");
+      setIsLoading(false);
     } catch (error) {
       if (error instanceof Error)
         setErrorMessage("An Unexpected Error Occured");
+      setIsLoading(false);
     }
   };
 
@@ -55,11 +61,7 @@ const NewIssuePage = () => {
           />
         </TextField.Root>
         {/* Error handling for title field */}
-        {errors.title && (
-          <Text color="red" as="p">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         {/* Since our md editor does not support additional props so we cannot use register directly */}
         <Controller
           name="description"
@@ -68,14 +70,17 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder="Describe your issue..." {...field} />
           )}
         />
-        {/* error handling for title field*/}
-        {errors.description && (
-          <Text color="red" as="p">
-            {errors.description.message}
-          </Text>
-        )}
-
-        <Button>Submit New Issue</Button>
+        {/* error handling for description field*/}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        <Button disabled={isLoading}>
+          {isLoading ? (
+            <>
+              Submitting <LoadingSpinner />
+            </>
+          ) : (
+            "Submit New Issue"
+          )}
+        </Button>
       </form>
     </div>
   );
