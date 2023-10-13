@@ -1,27 +1,24 @@
 "use client";
-import { TextField, Button, Callout, Text } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { LoadingSpinner, ErrorMessage } from "@/app/components";
+import { createIssueSchema } from "@/app/validationSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
+import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createIssueSchema } from "@/app/validationSchema";
+import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
-import delay from "delay";
 
 type IssueForm = z.infer<typeof createIssueSchema>; // infer the types based on the schema
 
-const NewIssuePage = async () => {
+const NewIssuePage = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors },
   } = useForm<IssueForm>({
@@ -42,8 +39,6 @@ const NewIssuePage = async () => {
       setIsLoading(false);
     }
   };
-
-  await delay(2000);
 
   return (
     <div className="max-w-xl">
