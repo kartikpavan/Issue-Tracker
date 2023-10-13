@@ -5,7 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import IssuesToolbar from "./IssuesToolbar";
 
 const LoadingIssuesPage = () => {
-  const issues = [1, 2, 3, 4, 5];
+  const issues = [1, 2, 3, 4, 5]; // placeholder for mapping purpose
 
   return (
     <div>
