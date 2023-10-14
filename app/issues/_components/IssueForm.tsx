@@ -94,34 +94,37 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         {/* Select Component */}
         {/* //TODO:-> Show this component only on Edit Page */}
-        <Flex align="center" gap="3">
-          <Text weight="medium">Status:</Text>
-          <Controller
-            control={control}
-            name="status"
-            render={({ field }) => (
-              <Select.Root
-                onValueChange={field.onChange}
-                {...field}
-                defaultValue={issue?.status}
-              >
-                <Select.Trigger
-                  color="blue"
-                  variant="surface"
+        {issue && (
+          <Flex align="center" gap="3">
+            <Text weight="medium">Status:</Text>
+            <Controller
+              control={control}
+              name="status"
+              render={({ field }) => (
+                <Select.Root
+                  onValueChange={field.onChange}
+                  {...field}
                   defaultValue={issue?.status}
-                />
-                <Select.Content color="indigo" position="popper">
-                  <Select.Group>
-                    <Select.Label>Status</Select.Label>
-                    <Select.Item value="OPEN">OPEN</Select.Item>
-                    <Select.Item value="IN_PROGRESS">IN PROGRESS</Select.Item>
-                    <Select.Item value="CLOSED">CLOSED</Select.Item>
-                  </Select.Group>
-                </Select.Content>
-              </Select.Root>
-            )}
-          ></Controller>
-        </Flex>
+                >
+                  <Select.Trigger
+                    color="blue"
+                    variant="surface"
+                    defaultValue={issue?.status}
+                  />
+                  <Select.Content color="indigo" position="popper">
+                    <Select.Group>
+                      <Select.Label>Status</Select.Label>
+                      <Select.Item value="OPEN">OPEN</Select.Item>
+                      <Select.Item value="IN_PROGRESS">IN PROGRESS</Select.Item>
+                      <Select.Item value="CLOSED">CLOSED</Select.Item>
+                    </Select.Group>
+                  </Select.Content>
+                </Select.Root>
+              )}
+            ></Controller>
+          </Flex>
+        )}
+
         <Button disabled={isLoading} size="3">
           {isLoading ? (
             <>
