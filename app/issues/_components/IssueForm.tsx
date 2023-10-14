@@ -1,6 +1,6 @@
 "use client";
 import { ErrorMessage, LoadingSpinner } from "@/app/components";
-import { createIssueSchema } from "@/app/validationSchema";
+import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
@@ -11,15 +11,16 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { z } from "zod";
 import dynamic from "next/dynamic";
+import { Issue } from "@prisma/client";
 
 // dynamically loading markdown component
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>; // infer the types based on the schema
+type IssueFormData = z.infer<typeof issueSchema>; // infer the types based on the schema
 
-const IssueForm = () => {
+const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
   const {
     register,
@@ -27,7 +28,7 @@ const IssueForm = () => {
     control,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,7 +36,12 @@ const IssueForm = () => {
   const onSubmit: SubmitHandler<IssueFormData> = async (data) => {
     try {
       setIsLoading(true);
-      await axios.post("/api/issues", data);
+      // If issue exists then it's is Editing State
+      if (issue) {
+        await axios.patch(`/api/issues/${issue.id}`, data);
+      } else {
+        await axios.post("/api/issues", data);
+      }
       router.push("/issues");
       setIsLoading(false);
     } catch (error) {
@@ -58,6 +64,7 @@ const IssueForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className=" space-y-3">
         <TextField.Root>
           <TextField.Input
+            defaultValue={issue?.title}
             placeholder="Title"
             size="2"
             {...register("title")}
@@ -67,6 +74,7 @@ const IssueForm = () => {
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         {/* Since our md editor does not support additional props so we cannot use register directly */}
         <Controller
+          defaultValue={issue?.description}
           name="description"
           control={control}
           render={({ field }) => (
@@ -80,6 +88,8 @@ const IssueForm = () => {
             <>
               Submitting <LoadingSpinner />
             </>
+          ) : issue ? (
+            "Update Issue"
           ) : (
             "Submit New Issue"
           )}
