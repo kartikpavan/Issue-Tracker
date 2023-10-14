@@ -2,7 +2,15 @@
 import { ErrorMessage, LoadingSpinner } from "@/app/components";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Callout, Select, TextField } from "@radix-ui/themes";
+import {
+  Box,
+  Button,
+  Callout,
+  Flex,
+  Select,
+  Text,
+  TextField,
+} from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
@@ -86,23 +94,25 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         {/* Select Component */}
         {/* //TODO:-> Show this component only on Edit Page */}
-        <Box>
+        <Flex align="center" gap="3">
+          <Text weight="medium">Status:</Text>
           <Controller
             control={control}
             name="status"
             render={({ field }) => (
-              <Select.Root onValueChange={field.onChange} {...field}>
-                <Select.Trigger placeholder="Change Issue Status" />
+              <Select.Root
+                onValueChange={field.onChange}
+                {...field}
+                defaultValue={issue?.status}
+              >
+                <Select.Trigger
+                  color="blue"
+                  variant="surface"
+                  defaultValue={issue?.status}
+                />
                 <Select.Content color="indigo" position="popper">
                   <Select.Group>
                     <Select.Label>Status</Select.Label>
-                    {/* {StatusItem.map((item) => {
-                      return (
-                        <Select.Item key={item.label} value={item.value}>
-                          {issue?.status}
-                        </Select.Item>
-                      );
-                    })} */}
                     <Select.Item value="OPEN">OPEN</Select.Item>
                     <Select.Item value="IN_PROGRESS">IN PROGRESS</Select.Item>
                     <Select.Item value="CLOSED">CLOSED</Select.Item>
@@ -111,8 +121,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
               </Select.Root>
             )}
           ></Controller>
-        </Box>
-        <Button disabled={isLoading}>
+        </Flex>
+        <Button disabled={isLoading} size="3">
           {isLoading ? (
             <>
               Submitting <LoadingSpinner />
