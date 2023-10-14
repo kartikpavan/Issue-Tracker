@@ -2,7 +2,7 @@
 import { ErrorMessage, LoadingSpinner } from "@/app/components";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Box, Button, Callout, Select, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import { AiOutlineWarning } from "react-icons/ai";
 import { z } from "zod";
 import dynamic from "next/dynamic";
 import { Issue } from "@prisma/client";
+import { StatusItem } from "@/app/utils/helper";
 
 // dynamically loading markdown component
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -83,6 +84,34 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         />
         {/* error handling for description field*/}
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        {/* Select Component */}
+        {/* //TODO:-> Show this component only on Edit Page */}
+        <Box>
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <Select.Root onValueChange={field.onChange} {...field}>
+                <Select.Trigger placeholder="Change Issue Status" />
+                <Select.Content color="indigo" position="popper">
+                  <Select.Group>
+                    <Select.Label>Status</Select.Label>
+                    {/* {StatusItem.map((item) => {
+                      return (
+                        <Select.Item key={item.label} value={item.value}>
+                          {issue?.status}
+                        </Select.Item>
+                      );
+                    })} */}
+                    <Select.Item value="OPEN">OPEN</Select.Item>
+                    <Select.Item value="IN_PROGRESS">IN PROGRESS</Select.Item>
+                    <Select.Item value="CLOSED">CLOSED</Select.Item>
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            )}
+          ></Controller>
+        </Box>
         <Button disabled={isLoading}>
           {isLoading ? (
             <>

@@ -9,6 +9,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   const body = await request.json();
+  console.log(body);
 
   //Validation the body
   const validation = issueSchema.safeParse(body);
@@ -28,6 +29,7 @@ export async function PATCH(
     data: {
       title: body.title,
       description: body.description,
+      status: body.status,
     },
   });
 
