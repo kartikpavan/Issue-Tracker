@@ -4,6 +4,7 @@ import React from "react";
 import delay from "delay";
 import IssuesToolbar from "./IssuesToolbar";
 import { CustomLink, IssueStatusBadge } from "../components";
+import { convertDateAndTime } from "../_utils/helper";
 
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
@@ -40,7 +41,8 @@ const IssuesPage = async () => {
                   <IssueStatusBadge status={issue.status} />
                 </Table.Cell>
                 <Table.Cell className="hidden sm:table-cell">
-                  {issue.createdAt.toLocaleString()}
+                  {/* Make this human readable form */}
+                  {convertDateAndTime(issue.createdAt)}
                 </Table.Cell>
               </Table.Row>
             );
@@ -52,5 +54,5 @@ const IssuesPage = async () => {
 };
 
 export const dynamic = "force-dynamic";
-
+// export const revalidate = 0;
 export default IssuesPage;

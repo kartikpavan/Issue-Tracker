@@ -2,8 +2,8 @@
 import { ErrorMessage, LoadingSpinner } from "@/app/components";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Issue } from "@prisma/client";
 import {
-  Box,
   Button,
   Callout,
   Flex,
@@ -14,17 +14,12 @@ import {
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
-import { cache, useState } from "react";
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { z } from "zod";
-import dynamic from "next/dynamic";
-import { Issue } from "@prisma/client";
 
-// dynamically loading markdown component
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
+import SimpleMDE from "react-simplemde-editor";
 
 type IssueFormData = z.infer<typeof issueSchema>; // infer the types based on the schema
 
@@ -51,6 +46,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         await axios.post("/api/issues", data);
       }
       router.push("/issues");
+      router.refresh();
       setIsLoading(false);
     } catch (error) {
       if (error instanceof Error)
