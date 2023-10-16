@@ -1,5 +1,6 @@
 import { issueSchema } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
+import delay from "delay";
 import { NextRequest, NextResponse } from "next/server";
 
 //PUT -> Replacing an Entire Object
@@ -40,6 +41,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  await delay(1000); //! Delete me later
   // Find the issue
   const issue = await prisma.issue.findUnique({
     where: { id: Number(params.id) },

@@ -8,7 +8,7 @@ import { convertDateAndTime } from "../_utils/helper";
 
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
-  await delay(2000);
+  await delay(2000); //! delete later
 
   return (
     <div>
