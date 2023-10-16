@@ -14,6 +14,7 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
+import { LoadingSpinner } from "./components";
 
 const navItems = [
   { label: "Dashboard", href: "/" },
@@ -52,15 +53,22 @@ const Navbar = () => {
             </ul>
           </Flex>
           <Box>
+            {status === "loading" && <LoadingSpinner />}
             {status === "authenticated" && (
               // <Link href={"/api/auth/signout"}>Log out</Link>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <Avatar src={session.user?.image!} fallback="A" size="2" />
+                  <Avatar
+                    src={session.user?.image!}
+                    fallback="A"
+                    size="2"
+                    className="cursor-pointer"
+                    referrerPolicy="no-referrer"
+                  />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                   <DropdownMenu.Label>
-                    <Text>{session.user?.email}</Text>
+                    <Text className="text-black">{session.user?.email}</Text>
                   </DropdownMenu.Label>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Item
