@@ -14,13 +14,12 @@ import {
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { cache, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { z } from "zod";
 import dynamic from "next/dynamic";
 import { Issue } from "@prisma/client";
-import { StatusItem } from "@/app/utils/helper";
 
 // dynamically loading markdown component
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -93,7 +92,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         {/* error handling for description field*/}
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         {/* Select Component */}
-        {/* //TODO:-> Show this component only on Edit Page */}
+        {/* Show this component only on Edit Page */}
         {issue && (
           <Flex align="center" gap="3">
             <Text weight="medium">Status:</Text>
