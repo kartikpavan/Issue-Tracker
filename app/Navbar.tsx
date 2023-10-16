@@ -5,7 +5,15 @@ import { usePathname } from "next/navigation";
 import { PiBugFill } from "react-icons/pi";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 const navItems = [
   { label: "Dashboard", href: "/" },
@@ -45,10 +53,29 @@ const Navbar = () => {
           </Flex>
           <Box>
             {status === "authenticated" && (
-              <Link href={"/api/auth/signout"}>Log out</Link>
+              // <Link href={"/api/auth/signout"}>Log out</Link>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar src={session.user?.image!} fallback="A" size="2" />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text>{session.user?.email}</Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item
+                    color="red"
+                    className="hover:bg-red-500 hover:text-white duration-200 transition-all"
+                  >
+                    <Link href={"/api/auth/signout"}>Log out</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             )}
             {status === "unauthenticated" && (
-              <Link href={"/api/auth/signin"}>Sign in</Link>
+              <Button variant="outline">
+                <Link href={"/api/auth/signin"}>Sign in</Link>
+              </Button>
             )}
           </Box>
         </Flex>
