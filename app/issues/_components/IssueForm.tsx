@@ -46,7 +46,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         await axios.post("/api/issues", data);
       }
       router.push("/issues");
-      router.refresh();
+      router.refresh(); // refetch data when visiting this router
       setIsLoading(false);
     } catch (error) {
       if (error instanceof Error)

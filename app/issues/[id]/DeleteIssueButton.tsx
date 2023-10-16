@@ -1,10 +1,12 @@
 "use client";
-import { LoadingSpinner } from "@/app/components";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import toast, { Toaster } from "react-hot-toast";
+
+const notify = (errorMsg: string) => toast.error(errorMsg);
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
@@ -13,15 +15,18 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     try {
       await axios.delete(`/api/issues/${issueId}`);
       router.push("/issues");
-      router.refresh();
+      router.refresh(); // refetch data when visiting this router
     } catch (error) {
       if (error instanceof Error) {
+        notify("Oops! Something went wrong");
         console.log(error.message);
       }
     }
   };
   return (
     <>
+      <Toaster />
+
       <AlertDialog.Root>
         <AlertDialog.Trigger>
           <Button color="red">
