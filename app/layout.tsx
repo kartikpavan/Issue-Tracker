@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import AuthProvider from "./auth/Provider";
 import "./globals.css";
 import "./theme-config.css";
+import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,19 +29,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <AuthProvider>
-          <Theme
-            appearance="light"
-            accentColor="grass"
-            grayColor="mauve"
-            scaling="110%"
-          >
-            <Navbar />
-            <main className="p-5">
-              <Container>{children}</Container>
-            </main>
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme
+              appearance="light"
+              accentColor="grass"
+              grayColor="mauve"
+              scaling="110%"
+            >
+              <Navbar />
+              <main className="p-5">
+                <Container>{children}</Container>
+              </main>
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
