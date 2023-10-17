@@ -5,9 +5,22 @@ import delay from "delay";
 import IssuesToolbar from "./IssuesToolbar";
 import { CustomLink, IssueStatusBadge } from "../../components";
 import { convertDateAndTime } from "../../_utils/helper";
+import { Status } from "@prisma/client";
 
-const IssuesPage = async () => {
-  const issues = await prisma.issue.findMany();
+const IssuesPage = async ({
+  searchParams,
+}: {
+  searchParams: { status: Status };
+}) => {
+  const statuses = Object.values(Status);
+
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
+  const issues = await prisma.issue.findMany({
+    where: { status },
+  });
   await delay(2000); //! delete later
 
   return (
