@@ -1,11 +1,11 @@
 "use client";
+import { LoadingSpinner } from "@/app/components";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { use, useState } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { LoadingSpinner } from "@/app/components";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const notify = (errorMsg: string) => toast.error(errorMsg);
 
