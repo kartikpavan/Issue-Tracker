@@ -20,6 +20,25 @@ const AsigneeSelect = ({ issue }: { issue: Issue }) => {
     retry: 3,
   });
 
+  // API call to assign user with an issue
+  const assignIssueToUser = (userId: string) => {
+    axios
+      .patch(`/api/issues/${issue.id}`, {
+        assignedToUserId: userId === " " ? null : userId,
+      })
+      .then(() => {
+        const matchedUser = users?.find((user) => user.id === userId);
+        if (!matchedUser) {
+          toast(`Issue Unassigned`);
+        } else {
+          toast.success(`Issue assigned to ${matchedUser?.name}`);
+        }
+      })
+      .catch(() => {
+        toast.error("Changes could not be saved");
+      });
+  };
+
   if (isLoading) return <Skeleton height={"2rem"} />;
 
   if (error) return null;
@@ -28,23 +47,7 @@ const AsigneeSelect = ({ issue }: { issue: Issue }) => {
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          axios
-            .patch(`/api/issues/${issue.id}`, {
-              assignedToUserId: userId === " " ? null : userId,
-            })
-            .then(() => {
-              const matchedUser = users?.find((user) => user.id === userId);
-              if (!matchedUser) {
-                toast(`Issue Unassigned`);
-              } else {
-                toast.success(`Issue assigned to ${matchedUser?.name}`);
-              }
-            })
-            .catch(() => {
-              toast.error("Changes could not be saved");
-            });
-        }}
+        onValueChange={(userId) => assignIssueToUser(userId)}
       >
         <Select.Trigger placeholder="Assign User" className="text-black" />
         <Select.Content position="popper">
