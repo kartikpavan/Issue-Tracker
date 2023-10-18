@@ -6,7 +6,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 
 const IssuesToolbar = () => {
   return (
-    <Flex mb="5" justify="between">
+    <Flex mb="3" justify="between">
       {/* Filter Issue Dropdown */}
       <IssueStatusFilter />
       {/* Create Issue btn */}
