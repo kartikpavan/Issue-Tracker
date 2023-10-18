@@ -11,7 +11,7 @@ const IssuesToolbar = () => {
       <IssueStatusFilter />
       {/* Create Issue btn */}
       <Button>
-        <AiOutlinePlus size={22} />
+        <AiOutlinePlus size={22} className="hidden sm:block" />
         <Link href="/issues/new">New Issue</Link>
       </Button>
     </Flex>
