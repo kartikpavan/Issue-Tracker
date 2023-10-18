@@ -17,23 +17,19 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     try {
       setIsDeleting(true);
       await axios.delete(`/api/issues/${issueId}`);
-      router.push("/issues");
-      router.refresh(); // refetch data when visiting this router
       setIsDeleting(false);
+      router.push("/issues/list");
+      router.refresh(); // refetch data when visiting this router
     } catch (error) {
       if (error instanceof Error) {
         notify("Oops! Something went wrong");
-        console.log(error.message);
         setIsDeleting(false);
       }
-    } finally {
-      setIsDeleting(false);
     }
   };
   return (
     <>
       <Toaster />
-
       <AlertDialog.Root>
         <AlertDialog.Trigger>
           <Button color="red" disabled={isDeleting}>
