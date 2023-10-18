@@ -1,8 +1,7 @@
-# Ecommerce-Price-Tracker
+# Issue/Bug-Tracker
 
-## :moneybag: NextJs Ecom Price Tracker :moneybag:
-
-This project is a Next.js 13 eCommerce price tracker that includes data scraping, cron jobs and sending email.
+## :moneybag: NextJs Issue/Bug Tracker :moneybag:
+An issue tracker web application for tracking and managing project issues.
 
 ![Screenshot 2023-10-18 200104](https://github.com/kartikpavan/Issue-Tracker/assets/81632171/d5ee3ccc-7783-4ac2-b389-a9b6be030dd5)
 
