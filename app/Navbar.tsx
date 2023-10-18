@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { PiBugFill } from "react-icons/pi";
 import classnames from "classnames";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import {
   Avatar,
   Box,
@@ -24,6 +24,7 @@ const navItems = [
 const Navbar = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const router = useRouter();
   return (
     <nav className="border mb-5 px-5 h-14">
       <Container>
@@ -55,7 +56,6 @@ const Navbar = () => {
           <Box>
             {status === "loading" && <LoadingSpinner />}
             {status === "authenticated" && (
-              // <Link href={"/api/auth/signout"}>Log out</Link>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
                   <Avatar
@@ -75,7 +75,16 @@ const Navbar = () => {
                     color="red"
                     className="hover:bg-red-500 hover:text-white duration-200 transition-all"
                   >
-                    <Link href={"/api/auth/signout"}>Log out</Link>
+                    <Text
+                      onClick={() => {
+                        signOut({ redirect: false }).then(() => {
+                          router.push("/"); // Redirect to the dashboard page after signing out
+                        });
+                      }}
+                    >
+                      Log out
+                    </Text>
+                    {/* <Link href={"/api/auth/signout"}>Log out</Link> */}
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
