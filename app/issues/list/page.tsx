@@ -1,27 +1,46 @@
 import prisma from "@/prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
-import React from "react";
-import delay from "delay";
-import IssuesToolbar from "./IssuesToolbar";
-import { CustomLink, IssueStatusBadge } from "../../components";
+import Link from "next/link";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { convertDateAndTime } from "../../_utils/helper";
-import { Status } from "@prisma/client";
+import { CustomLink, IssueStatusBadge } from "../../components";
+import IssuesToolbar from "./IssuesToolbar";
 
 const IssuesPage = async ({
   searchParams,
 }: {
-  searchParams: { status: Status };
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    arrangement: "asc" | "desc";
+  };
 }) => {
-  const statuses = Object.values(Status);
+  const columns: Array<{
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }> = [
+    { label: "Issue", value: "title" },
+    { label: "Status", value: "status", className: "hidden sm:table-cell" },
+    { label: "Created", value: "createdAt", className: "hidden sm:table-cell" },
+  ];
+
+  const statuses = ["OPEN", "IN_PROGRESS", "CLOSED"];
 
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
+    : undefined; // undefined in prisma means it will not include this value while Querying DB
+
+  const orderBy = searchParams.orderBy
+    ? { [searchParams.orderBy]: searchParams.arrangement }
     : undefined;
 
+  // DB CALL
   const issues = await prisma.issue.findMany({
     where: { status },
+    orderBy: orderBy,
   });
-  await delay(2000); //! delete later
 
   return (
     <div>
@@ -29,13 +48,36 @@ const IssuesPage = async ({
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden sm:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden sm:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
+            {columns.map((col) => {
+              return (
+                <Table.ColumnHeaderCell
+                  key={col.value}
+                  className={col.className}
+                >
+                  {/* Preserving the previous query parameters and adding new one using spread op */}
+                  <Link
+                    href={{
+                      query: {
+                        ...searchParams,
+                        orderBy: col.value,
+                        arrangement:
+                          searchParams?.arrangement === "asc" ? "desc" : "asc",
+                      },
+                    }}
+                  >
+                    {col.label}
+                  </Link>
+
+                  {col.value === searchParams.orderBy ? (
+                    searchParams.arrangement === "asc" ? (
+                      <AiOutlineArrowUp className="inline-block space-x-2" />
+                    ) : (
+                      <AiOutlineArrowDown className="inline-block space-x-2" />
+                    )
+                  ) : null}
+                </Table.ColumnHeaderCell>
+              );
+            })}
           </Table.Row>
         </Table.Header>
         <Table.Body>

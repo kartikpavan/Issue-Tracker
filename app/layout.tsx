@@ -33,7 +33,7 @@ export default function RootLayout({
           <AuthProvider>
             <Theme
               appearance="light"
-              accentColor="grass"
+              accentColor="cyan"
               grayColor="mauve"
               scaling="110%"
             >
