@@ -1,19 +1,10 @@
-import { Text } from "@radix-ui/themes";
-import Pagination from "./components/Pagination";
+import LatestIssues from "./LatestIssues";
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { page: string };
-}) {
+export default function Home() {
   return (
     <main>
-      <Text>Hello world</Text>
-      <Pagination
-        itemCount={20}
-        itemsPerPage={5}
-        currentPage={parseInt(searchParams.page)}
-      />
+      <LatestIssues />
     </main>
   );
 }
+export const dynamic = "force-dynamic";

@@ -1,12 +1,11 @@
 import Pagination from "@/app/components/Pagination";
 import prisma from "@/prisma/client";
-import { Issue, Status } from "@prisma/client";
 import { Flex, Text } from "@radix-ui/themes";
 import IssueTable, { QueryProps } from "./IssueTable";
 import IssuesToolbar from "./IssuesToolbar";
 
 const IssuesPage = async ({ searchParams }: { searchParams: QueryProps }) => {
-  // validating status Filter
+  // validating status FilterP
   const statuses = ["OPEN", "IN_PROGRESS", "CLOSED"];
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
@@ -51,6 +50,5 @@ const IssuesPage = async ({ searchParams }: { searchParams: QueryProps }) => {
   );
 };
 
-export const dynamic = "force-dynamic";
-// export const revalidate = 0;
+export const dynamic = "force-dynamic"; // whenever visiting this page , revalidate the route
 export default IssuesPage;

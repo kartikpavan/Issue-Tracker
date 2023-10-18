@@ -3,7 +3,6 @@ import { CustomLink, IssueStatusBadge } from "@/app/components";
 import { Issue, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
 import Link from "next/link";
-import React from "react";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 
 export interface QueryProps {
