@@ -7,13 +7,15 @@ import AsigneeSelect from "./AsigneeSelect";
 import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
-import { Metadata } from "next";
+import { cache } from "react";
+
+const fetchIssueID = cache((issueId: number) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
 
 const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
-  const issue = await prisma.issue.findUnique({
-    where: { id: Number(params.id) },
-  });
+  const issue = await fetchIssueID(parseInt(params.id));
 
   // If the id is not found redirect user to 404 page
   if (!issue) notFound();
@@ -37,9 +39,7 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
 };
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
-  });
+  const issue = await fetchIssueID(parseInt(params.id));
   return {
     title: issue?.title,
     description: "Details of issue ID : " + issue?.id,

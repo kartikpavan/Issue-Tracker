@@ -11,8 +11,8 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  // const session = getServerSession(authOptions);
-  // if (!session) return NextResponse.json({}, { status: 401 });
+  const session = getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
   const body = await request.json();
   console.log(body);
 
