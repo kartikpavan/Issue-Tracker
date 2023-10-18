@@ -6,6 +6,7 @@ import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { convertDateAndTime } from "../../_utils/helper";
 import { CustomLink, IssueStatusBadge } from "../../components";
 import IssuesToolbar from "./IssuesToolbar";
+import Pagination from "@/app/components/Pagination";
 
 const IssuesPage = async ({
   searchParams,
@@ -14,6 +15,7 @@ const IssuesPage = async ({
     status: Status;
     orderBy: keyof Issue;
     arrangement: "asc" | "desc";
+    page: string;
   };
 }) => {
   const columns: Array<{
@@ -26,21 +28,32 @@ const IssuesPage = async ({
     { label: "Created", value: "createdAt", className: "hidden sm:table-cell" },
   ];
 
+  // validating status Filter
   const statuses = ["OPEN", "IN_PROGRESS", "CLOSED"];
-
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined; // undefined in prisma means it will not include this value while Querying DB
 
+  //validating Orderby Sort
   const orderBy = searchParams.orderBy
     ? { [searchParams.orderBy]: searchParams.arrangement }
     : undefined;
+
+  // validating pagination filter
+  const page = parseInt(searchParams.page) || 1;
+  const itemsPerPage = 10;
+  const skip = (page - 1) * itemsPerPage;
 
   // DB CALL
   const issues = await prisma.issue.findMany({
     where: { status },
     orderBy: orderBy,
+    skip: skip,
+    take: itemsPerPage, // number of records to fetch
   });
+
+  // Fetching total Records
+  const totalissues = await prisma.issue.count({ where: { status } });
 
   return (
     <div>
@@ -104,6 +117,11 @@ const IssuesPage = async ({
           })}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={totalissues}
+        itemsPerPage={itemsPerPage}
+        currentPage={page}
+      />
     </div>
   );
 };
