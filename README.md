@@ -1,34 +1,97 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ecommerce-Price-Tracker
 
-## Getting Started
+## :moneybag: NextJs Ecom Price Tracker :moneybag:
 
-First, run the development server:
+This project is a Next.js 13 eCommerce price tracker that includes data scraping, cron jobs and sending email.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+![Screenshot 2023-10-18 200104](https://github.com/kartikpavan/Issue-Tracker/assets/81632171/d5ee3ccc-7783-4ac2-b389-a9b6be030dd5)
+
+## Summary
+
+- :star: [Website Link](#website-link)
+- :star: [Getting Started](#getting-started)
+- :star: [Prerequisites](#prerequisites)
+- :star: [Installing](#installing)
+- :star: [Built With](#built-with)
+- :star: [Software Developer](#software-developer)
+
+## LIVE-Website-Link
+
+[Issue-Bug-Tracker](https://issue-tracker-next-js-cyan.vercel.app)
+
+## Getting-Started
+
+Feel free to fork the project and change it to your liking. Try it out by cloning the repo to your local machine or download the zip
+
+## Prerequisites
+
+You need preferably the latest version of Chrome and text editor.
+
+#### Go here for Chrome: https://www.google.com/chrome/
+
+#### VSCode is my go-to: https://code.visualstudio.com/
+
+## Installing
+
+To get started follow this guide:
+
+#### FOR DEVELOPMENT PURPOSES
+
+In your terminal clone the repo to your local machine using git clone:
+
+```
+git clone https://github.com/kartikpavan/Issue-Tracker.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Move to your newly cloned repo by entering the following in your terminal:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+$ cd issue-tracker && yarn or npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To Run Project:-
 
-## Learn More
+```
+$ yarn dev or npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+To open all project files from the terminal using VSCode just try and enter:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+$ code .
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This Project Requires Additional Environment Variable setup
 
-## Deploy on Vercel
+```
+DATABASE_URL= ""
+NEXTAUTH_URL = "http://localhost:3000"
+NEXTAUTH_SECRET = ""
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_SECRET = ""
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Built With
+
+- Next JS
+- React Hook Form
+- ZOD Validator
+- Prisma
+- Next Auth
+- My-SQL
+- React Loading Skeleton
+- React Markdown
+- Re-Charts
+- React Simple Editor
+- React Hot Toast
+- React Icons
+- Axios
+- React Query
+- Tailwind CSS
+- Radix UI
+
+
+## Software Developer
+
+- **Kartik Pavan**
