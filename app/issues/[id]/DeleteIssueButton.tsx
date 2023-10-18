@@ -32,7 +32,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
       <Toaster />
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red" disabled={isDeleting}>
+          <Button className="bg-red-500 text-white">
             <AiOutlineDelete size={18} />
             Delete Issue
             {isDeleting && <LoadingSpinner />}
@@ -51,7 +51,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button variant="solid" color="red" onClick={deleteIssue}>
+              <Button className="bg-red-500 text-white" onClick={deleteIssue}>
                 Delete
               </Button>
             </AlertDialog.Action>
