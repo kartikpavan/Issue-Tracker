@@ -3,6 +3,7 @@ import prisma from "@/prisma/client";
 import { Flex, Text } from "@radix-ui/themes";
 import IssueTable, { QueryProps } from "./IssueTable";
 import IssuesToolbar from "./IssuesToolbar";
+import { Metadata } from "next";
 
 const IssuesPage = async ({ searchParams }: { searchParams: QueryProps }) => {
   // validating status FilterP
@@ -51,4 +52,9 @@ const IssuesPage = async ({ searchParams }: { searchParams: QueryProps }) => {
 };
 
 export const dynamic = "force-dynamic"; // whenever visiting this page , revalidate the route
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issues List",
+  description: "View all Project Issues ",
+};
+
 export default IssuesPage;

@@ -7,6 +7,7 @@ import AsigneeSelect from "./AsigneeSelect";
 import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
+import { Metadata } from "next";
 
 const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
@@ -35,6 +36,15 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   );
 };
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+  return {
+    title: issue?.title,
+    description: "Details of issue ID : " + issue?.id,
+  };
+}
 export const dynamic = "force-dynamic";
 
 export default IssueDetailPage;
