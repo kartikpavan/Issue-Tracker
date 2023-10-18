@@ -1,8 +1,7 @@
 import prisma from "@/prisma/client";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
   const users = await prisma.user.findMany({ orderBy: { name: "asc" } });
   if (!users) {
     return NextResponse.json({ error: "No users found" }, { status: 404 });
